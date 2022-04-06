@@ -2,9 +2,11 @@ import psycopg2
 
 hostname = 'localhost'
 database  = 'database_1'
-username = 'postgres'
-pwd = 'panasonicavg5'
-port_id = 5433
+#username = 'postgres'
+username = 'escuela_user'
+#pwd = 'panasonicavg5'
+pwd = 'en5570346521'
+port_id = 5432
 conn = None
 cur = None
 
@@ -26,7 +28,7 @@ try:
         name varchar(40) NOT NULL,
         position varchar(40),
         battery float4,
-        status integer,
+        status varchar(40),
         callback boolean
     )
     """
@@ -34,7 +36,7 @@ try:
     cur.execute(create_script)
 
     insert_script = 'INSERT INTO robot (id, name, position, battery, status, callback) VALUES ( %s,%s, %s, %s, %s, %s)'
-    insert_value = [(1, 'Jammy', 'B', 96.0, 3, False),(2, 'JJ', 'D', 97.5, 2, False)]
+    insert_value = [(1, 'Jammy', 'B', 96.0, "3", False),(2, 'JJ', 'D', 97.5, "2", False)]
     for record in insert_value:
         cur.execute(insert_script, record)
     cur.execute('SELECT * FROM robot')
