@@ -15,6 +15,12 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(ADDR)
 
 class robot:
+    def __init__(self,name ,position, status, battery):
+        self.name = name
+        self.position = position
+        self.status = status
+        self.battery = battery
+
     def send(self, msg):
         # accept dictionary of status
         message = msg.encode(FORMAT)
@@ -28,6 +34,7 @@ class robot:
         return response_mgs
     
     def wait(order, pos):
+        i = 0
         while order == '2':
             time.sleep(5)
             print('Resend position ' + pos)
@@ -38,3 +45,6 @@ class robot:
             client.send(send_length)
             client.send(message)
             order = client.recv(2048).decode(FORMAT)
+            i += 1
+            if i >= 5:
+                order = '1'
