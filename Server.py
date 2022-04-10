@@ -19,19 +19,18 @@ def logic(msg):
 
 def handle_client(conn, addr):
     print(f"[NEW CONNECTION] {addr} connected.")
-    conn.send("Hello, you're, now, connected".encode(FORMAT))
     connected = True
     while connected:
         msg_length = conn.recv(HEADER).decode(FORMAT)
         if msg_length:
             msg_length = int(msg_length)
             msg = conn.recv(msg_length).decode(FORMAT)
+            order = logic(msg)
+            conn.send(order.encode(FORMAT))
             if msg == DISCONNECT_MESSAGE:
                 connected = False
 
             print(f"[{addr}] {msg}")
-            order = logic(msg)
-            conn.send(order.encode(FORMAT))
 
     conn.close()
         
