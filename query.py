@@ -1,12 +1,10 @@
 import psycopg2
 
-hostname = 'localhost'
+hostname = 'localhost' # need to change later
 database  = 'database_1'
-#username = 'postgres'
-username = 'escuela_user'
-#pwd = 'panasonicavg5'
-pwd = 'en5570346521'
-port_id = 5432
+username = 'escuela_user' # need to postgres 
+pwd = 'en5570346521' # need to change to panasonicavg5
+port_id = 5432 # need to change to 5433
 conn = None
 cur = None
 
@@ -36,7 +34,7 @@ try:
     cur.execute(create_script)
 
     insert_script = 'INSERT INTO robot (id, name, position, battery, status, callback) VALUES ( %s,%s, %s, %s, %s, %s)'
-    insert_value = [(1, 'Jammy', 'B', 96.0, "3", False),(2, 'JJ', 'D', 97.5, "2", False)]
+    insert_value = [(1, 'Robot-X', 'A', 96.0, "3", False),(2, 'Robot-Y', 'D', 97.5, "2", False)]
     for record in insert_value:
         cur.execute(insert_script, record)
     cur.execute('SELECT * FROM robot')

@@ -8,7 +8,7 @@ from streamlit_autorefresh import st_autorefresh
 
 def main():
     # update every 15 second
-    st_autorefresh(interval= 1 * 1000, key="queryrefresh")
+    st_autorefresh(interval= 3 * 1000, key="queryrefresh")
 
 
     def init_connection():
@@ -44,18 +44,6 @@ def main():
                         'callback' : False
                     }
     }
-
-
-    # sidebar area
-    st.sidebar.write("Robot control section:")
-    if st.sidebar.button('Robot X, call back'):
-        update_script = 'UPDATE robot SET callback = true WHERE id = 1;'
-        cur.execute(update_script)
-
-    if st.sidebar.button('Robot Y, call back'):
-        update_script = 'UPDATE robot SET callback = true WHERE id = 2;'
-        cur.execute(update_script)
-
 
     rows = run_query("SELECT * from robot;")
 
@@ -111,7 +99,7 @@ def main():
     position1_y = int(positon_dict[dict_robot['robot A']['position']]['y'])
     position2_x = int(positon_dict[dict_robot['robot B']['position']]['x'])
     position2_y = int(positon_dict[dict_robot['robot B']['position']]['y'])
-    size = 18
+    size = 25
 
     # graph area
     image = cv2.imread("Main_dashboard.png", cv2.IMREAD_COLOR)
