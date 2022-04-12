@@ -1,5 +1,7 @@
+from email import message
 import socket 
 import threading
+import json
 
 HEADER = 64
 PORT = 5050
@@ -29,8 +31,19 @@ def handle_client(conn, addr):
             conn.send(order.encode(FORMAT))
             if msg == DISCONNECT_MESSAGE:
                 connected = False
+            
+            if "{" in msg:
+                message = json.loads(msg)
+            else:
+                message = msg
 
-            print(f"[{addr}] {msg}")
+            """bot_status = {
+            'name' : 'Robot-X', 
+            'position' : 'standby',
+            'status' : '3',
+            'battery' : 100.0
+            }"""
+            print(f"[{addr}] {message}")
 
     conn.close()
         
