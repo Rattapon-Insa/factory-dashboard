@@ -64,7 +64,7 @@ class robot:
                 bot_status = {
                 'name' : name, 
                 'position' : position,
-                'status' : status,
+                'status' : '2',
                 'battery' : battery
                 }
                 msg = json.dumps(bot_status)
@@ -88,7 +88,7 @@ class robot:
                 bot_status = {
                 'name' : name, 
                 'position' : position,
-                'status' : status,
+                'status' : '2',
                 'battery' : battery
                 }
                 msg = json.dumps(bot_status)

@@ -50,15 +50,15 @@ def main():
     conn.close()
 
     positon_dict = {
-        'standby':{"x": 396,"y": 812.8},
-        'I': {"x": 573.7, "y": 815.1},
-        'A':{'x': 756.1, 'y': 735.9},
-        'B':{'x': 1067.3, 'y': 813.5},
-        'C':{'x': 1245.7, 'y': 520.2},
-        'D':{'x': 839.1, 'y': 239.3},
-        'F':{'x': 670.0, 'y': 126.8},
-        'G':{'x': 1179.8, 'y': 127.6},
-        'H':{'x': 1339.6, 'y': 285.1}
+        'standby':{"x": 250,"y": 923},
+        'F': {"x": 495, "y": 923},
+        'D':{'x': 1075, 'y': 923},
+        'E':{'x': 709, 'y': 830},
+        'G':{'x': 1284, 'y': 579},
+        'H':{'x': 1275, 'y': 214},
+        'A':{'x': 1106, 'y': 215},
+        'B':{'x': 1430, 'y': 242},
+        'C':{'x': 1392, 'y': 580}
     }
 
     status_dict = {
@@ -102,7 +102,7 @@ def main():
     size = 25
 
     # graph area
-    image = cv2.imread("Main_dashboard.png", cv2.IMREAD_COLOR)
+    image = cv2.imread("Dashboard.png", cv2.IMREAD_COLOR)
     # Draw a rectangle (thickness is a positive integer)
     imageRectangle = image.copy()
     imageRectangle = cv2.cvtColor(imageRectangle, cv2.COLOR_BGR2RGB)

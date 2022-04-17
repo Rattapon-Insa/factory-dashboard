@@ -4,7 +4,7 @@ import time
 
 
 status = 'Standby'
-position = ['start','E', 'D', 'G', 'A', 'H', 'B', 'C', 'D', 'F']
+position = ['standby','E', 'D', 'G', 'H', 'A', 'B', 'C', 'D', 'F', 'standby']
 name = "Robot-X"
 battery = 100.0
 status = '3'
@@ -16,6 +16,7 @@ for mess in position:
     msg = robot_a.name+ " is sending " + robot_a.position
     battery -= 1
     robot_a.battery = battery
+    robot_a.status = '1'
     result = robot_a.send()
     print('Current position is '+ robot_a.position)
     print('battery is '+ str(robot_a.battery))
