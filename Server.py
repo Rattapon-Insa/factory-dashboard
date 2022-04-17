@@ -2,10 +2,12 @@ from email import message
 import socket 
 import threading
 import json
+from update_query import query_check
 
 HEADER = 64
 PORT = 5050
-SERVER = socket.gethostbyname(socket.gethostname())
+SERVER = '127.0.0.1'
+#SERVER = socket.gethostbyname(socket.gethostname())
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
@@ -14,10 +16,59 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
 
 def logic(msg):
-    if 'A' in msg:
-        return '2'
+    name = msg['name']
+    status_x, status_y = query_check.check_status()
+
+    concern_point = {
+        'A' : 'G',
+        'C' : 'E',
+        'E' : 'C'
+    }
+
+    if status_x[1] == name:
+        print('Robot-X sent the message')
+
+        # Robot-X in the concern point
+        current_pos_x = status_x[2]
+        current_pos_y = status_y[2]
+
+        try:
+            if concern_point[current_pos_x] == current_pos_y:
+                # if both robot is in the concern position, then wait untill condition
+                print(concern_point[current_pos_x])
+                print('logic case 1')
+                return '3'
+            elif concern_point[current_pos_x] != current_pos_y:
+                print(concern_point[current_pos_x])
+                print('logic case 2')
+                return '2'
+            else:
+                print('out of logic')
+        except KeyError:
+            print('logic case 3')
+            return '1'
+
     else:
-        return '1'
+        print('Robot-Y sent the message')
+        # Robot-Y in the concern point
+        current_pos_x = status_x[2]
+        current_pos_y = status_y[2]
+
+        try:
+            if concern_point[current_pos_y] == current_pos_x:
+                # if both robot is in the concern position, then wait untill condition
+                print(concern_point[current_pos_y])
+                print('logic case 1')
+                return '3'
+            elif concern_point[current_pos_y] != current_pos_x:
+                print(concern_point[current_pos_y])
+                print('logic case 2')
+                return '2'
+            else:
+                print('out of logic')
+        except KeyError:
+            print('logic case 3')
+            return '1'
 
 def handle_client(conn, addr):
     print(f"[NEW CONNECTION] {addr} connected.")
@@ -27,22 +78,22 @@ def handle_client(conn, addr):
         if msg_length:
             msg_length = int(msg_length)
             msg = conn.recv(msg_length).decode(FORMAT)
-            order = logic(msg)
-            conn.send(order.encode(FORMAT))
+            if "{" in msg:
+                message = json.loads(msg)
+                name = message['name']
+                pos = message['position']
+                status = message['status']
+                battery = message['battery']
+                query_check.update(pos,status, 
+                       battery, name)
+                order = logic(message)
+                conn.send(order.encode(FORMAT))
+            else:
+                message = msg
+        
             if msg == DISCONNECT_MESSAGE:
                 connected = False
             
-            if "{" in msg:
-                message = json.loads(msg)
-            else:
-                message = msg
-
-            """bot_status = {
-            'name' : 'Robot-X', 
-            'position' : 'standby',
-            'status' : '3',
-            'battery' : 100.0
-            }"""
             print(f"[{addr}] {message}")
 
     conn.close()
