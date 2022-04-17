@@ -1,6 +1,5 @@
 from Client import robot
 import time
-from update_query import query_check
 
 
 status = 'Standby'
@@ -10,18 +9,16 @@ battery = 100.0
 status = '3'
 current_pos = 'standby'
 
-robot_a = robot(name ,current_pos, status, battery)
+robot_b = robot(name ,current_pos, status, battery)
 for mess in position:
-    robot_a.position = mess
-    msg = robot_a.name+ " is sending " + robot_a.position
+    robot_b.position = mess
+    msg = robot_b.name+ " is sending " + robot_b.position
     battery -= 1
-    robot_a.battery = battery
-    result = robot_a.send()
-    print('Current position is '+ robot_a.position)
-    print('battery is '+ str(robot_a.battery))
-    query_check.update(robot_a.position,robot_a.status, 
-                       robot_a.battery, robot_a.name)
-    robot.wait(result,robot_a.position)
+    robot_b.battery = battery
+    result = robot_b.send()
+    print('Current position is '+ robot_b.position)
+    print('battery is '+ str(robot_b.battery))
+    robot.wait(result, robot_b.name,  robot_b.position, robot_b.status, robot_b.battery)
     time.sleep(5)
-
-robot_a.send_disconnect()
+print('out of loop')
+robot_b.send_disconnect()

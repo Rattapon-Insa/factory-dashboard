@@ -34,7 +34,7 @@ try:
     cur.execute(create_script)
 
     insert_script = 'INSERT INTO robot (id, name, position, battery, status, callback) VALUES ( %s,%s, %s, %s, %s, %s)'
-    insert_value = [(1, 'Robot-X', 'A', 96.0, "3", False),(2, 'Robot-Y', 'D', 97.5, "2", False)]
+    insert_value = [(1, 'Robot-X', 'G', 96.0, "3", False),(2, 'Robot-Y', 'G', 97.5, "2", False)]
     for record in insert_value:
         cur.execute(insert_script, record)
     cur.execute('SELECT * FROM robot')

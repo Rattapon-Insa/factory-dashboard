@@ -1,6 +1,6 @@
 from Client import robot
 import time
-from update_query import query_check
+
 
 
 status = 'Standby'
@@ -19,9 +19,7 @@ for mess in position:
     result = robot_a.send()
     print('Current position is '+ robot_a.position)
     print('battery is '+ str(robot_a.battery))
-    query_check.update(robot_a.position,robot_a.status, 
-                       robot_a.battery, robot_a.name)
-    robot.wait(result,robot_a.position)
+    robot.wait(result, robot_a.name,  robot_a.position, robot_a.status, robot_a.battery)
     time.sleep(5)
-
+print('out of loop')
 robot_a.send_disconnect()

@@ -9,7 +9,8 @@ HEADER = 64
 PORT = 5050
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
-SERVER = "localhost"
+#SERVER = "localhost"
+SERVER = "127.0.0.1"
 ADDR = (SERVER, PORT)
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -53,19 +54,50 @@ class robot:
         response_mgs = client.recv(2048).decode(FORMAT)
         print(response_mgs)
     
-    def wait(order, pos):
+    def wait(order, name,  position, status, battery):
         i = 0
-        while order == '2':
-            i += 1
-            time.sleep(5)
-            print('Resend position ' + pos)
-            message = pos.encode(FORMAT)
-            msg_length = len(message)
-            send_length = str(msg_length).encode(FORMAT)
-            send_length += b' ' * (HEADER - len(send_length))
-            client.send(send_length)
-            client.send(message)
-            order = client.recv(2048).decode(FORMAT)
-            print('Waited for {} loop'.format(i))
-            if i >= 5:
-                order = '1'
+        if order == '2':
+            while order != '1':
+                i += 1
+                # wait for 1 seconds 5 times
+                time.sleep(1)
+                bot_status = {
+                'name' : name, 
+                'position' : position,
+                'status' : status,
+                'battery' : battery
+                }
+                msg = json.dumps(bot_status)
+                
+                print('Resend position ' )
+                message = msg.encode(FORMAT)
+                msg_length = len(message)
+                send_length = str(msg_length).encode(FORMAT)
+                send_length += b' ' * (HEADER - len(send_length))
+                client.send(send_length)
+                client.send(message)
+                order = client.recv(2048).decode(FORMAT)
+                print('Waited for {} second'.format(i))
+                if i >= 5:
+                    order = '1'
+        
+        elif order == '3':
+            while order != '1':
+                # wait for 2 seconds then resend position
+                time.sleep(2)
+                bot_status = {
+                'name' : name, 
+                'position' : position,
+                'status' : status,
+                'battery' : battery
+                }
+                msg = json.dumps(bot_status)
+                
+                print('Resend position and wait for other robot to move out' )
+                message = msg.encode(FORMAT)
+                msg_length = len(message)
+                send_length = str(msg_length).encode(FORMAT)
+                send_length += b' ' * (HEADER - len(send_length))
+                client.send(send_length)
+                client.send(message)
+                order = client.recv(2048).decode(FORMAT)
