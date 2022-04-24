@@ -3,7 +3,8 @@ import time
 
 
 status = 'Standby'
-position = ['standby','E', 'D', 'G', 'H', 'A', 'B', 'C', 'D', 'F', 'standby']
+#position = ['standby','E', 'D', 'G', 'H', 'A', 'B', 'C', 'D', 'F', 'standby']
+position = ['A', 'B', 'C', 'D', 'F', 'standby']
 name = "Robot-Y"
 battery = 100.0
 status = '3'

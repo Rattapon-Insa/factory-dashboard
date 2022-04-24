@@ -20,9 +20,12 @@ def logic(msg):
     status_x, status_y = query_check.check_status()
 
     concern_point = {
-        'A' : 'G',
-        'C' : 'E',
-        'E' : 'C'
+        'G' : ['A'],
+        'E' : ['C', 'D'],
+        'C' : ['D', 'E'],
+        'A' : 'case-2',
+        'C' : 'case-2',
+        'E' : 'case-2'
     }
 
     if status_x[1] == name:
@@ -30,20 +33,21 @@ def logic(msg):
 
         # Robot-X in the concern point
         current_pos_x = status_x[2]
+        print('logic got X ' + current_pos_x)
         current_pos_y = status_y[2]
+        print('logic got Y ' + current_pos_y)
 
         try:
-            if concern_point[current_pos_x] == current_pos_y:
+            if current_pos_y in concern_point[current_pos_x]:
                 # if both robot is in the concern position, then wait untill condition
-                print(concern_point[current_pos_x])
                 print('logic case 1')
                 return '3'
-            elif concern_point[current_pos_x] != current_pos_y:
-                print(concern_point[current_pos_x])
+            elif concern_point[current_pos_x] == 'case-2':
                 print('logic case 2')
                 return '2'
             else:
-                print('out of logic')
+                print('logic case 3')
+                return '1'
         except KeyError:
             print('logic case 3')
             return '1'
