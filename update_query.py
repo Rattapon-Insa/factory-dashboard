@@ -102,3 +102,30 @@ class query_check:
             R_X = query[0]
             R_y = query[1]
         return R_X, R_y
+
+    def update_callback(callback, name):
+        try:
+            conn = psycopg2.connect(
+                host = hostname,
+                dbname = database,
+                user = username,
+                password = pwd,
+                port = port_id
+            )
+
+            cur = conn.cursor()
+
+            insert_script = 'UPDATE robot SET callback = %s WHERE name = %s'
+            insert_value = [(callback, name)]
+            for record in insert_value:
+                cur.execute(insert_script, record)
+            conn.commit()
+
+        except Exception as error:
+            print(error)
+
+        finally:
+            if cur is not None:
+                cur.close
+            if conn is not None:
+                conn.close()  

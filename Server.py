@@ -43,6 +43,7 @@ def logic(msg):
                 print('logic case 1')
                 return '3'
             elif concern_point[current_pos_x] == 'case-2':
+                # wait for 5 seconds
                 print('logic case 2')
                 return '2'
             else:

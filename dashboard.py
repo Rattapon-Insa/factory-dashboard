@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 import streamlit as st
 import psycopg2
+from update_query import query_check
 from streamlit_autorefresh import st_autorefresh
 
 def main():
@@ -66,6 +67,25 @@ def main():
         "2" : 'Wait',
         "3" : 'standby'
     }
+
+    # Call back function at sidebar
+    if st.sidebar.button('Call Robot A back'):
+        query_check.update_callback(True, 'Robot-X')
+        print(query_check.fetch())
+    else:
+        print(query_check.fetch())
+
+    if st.sidebar.button('Call Robot B back'):
+        query_check.update_callback(True, 'Robot-Y')
+        print(query_check.fetch())
+    else:
+        print(query_check.fetch())
+
+    if st.sidebar.button('Reset call back'):
+        query_check.update_callback(False, 'Robot-Y')
+        query_check.update_callback(False, 'Robot-X')
+        print(query_check.fetch())
+
 
     # assign query result to dictionary
     for row in rows:
